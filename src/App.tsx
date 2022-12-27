@@ -1,7 +1,9 @@
-function App() {
+import { FC, ReactNode } from "react";
+
+const App: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <div>
-      Hello, world
+      {children}
     </div>
   );
 }
