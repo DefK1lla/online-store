@@ -1,6 +1,22 @@
 import { Component } from "react";
 
-class Home extends Component {
+import { products } from "../api";
+
+import IProducts from "../interfaces/IProducts";
+
+class Home extends Component<{}, IProducts> {
+  state = {
+    limit: 0,
+    products: [],
+    skip: 0,
+    total: 0
+  };
+
+  async componentDidMount(): Promise<void> {
+    const prods: IProducts = await products.getAll();
+    this.setState(prods);
+  }
+
   render() {
     return (
       <div>
