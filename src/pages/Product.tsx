@@ -2,7 +2,7 @@ import { Component } from "react";
 
 import withRouter from "../hoc/withRouter";
 
-import { IWithRouterProps } from "../types/IWithRouterProps";
+import { IWithRouterProps } from "../interfaces/IWithRouterProps";
 
 class Product extends Component<IWithRouterProps> {
   render() {

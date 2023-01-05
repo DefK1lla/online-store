@@ -2,7 +2,7 @@ import { ComponentType } from "react";
 
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 
-import { IWithRouterProps } from "../types/IWithRouterProps";
+import { IWithRouterProps } from "../interfaces/IWithRouterProps";
 
 export const withRouter = <Props extends IWithRouterProps>(
   Component: ComponentType<Props>
