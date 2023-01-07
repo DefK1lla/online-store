@@ -4,7 +4,7 @@ import { products } from "../api";
 
 import IProducts from "../interfaces/IProducts";
 
-class Home extends Component<{}, IProducts> {
+class Home extends Component<unknown, IProducts> {
   state = {
     limit: 0,
     products: [],
