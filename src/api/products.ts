@@ -10,7 +10,7 @@ class Products {
   getOneById = async (id: number): Promise<ProductType> => {
     const res = await fetch(`https://dummyjson.com/products/${id}`).then(res => res.json());
     return res;
-  }
+  };
 }
 
 export const products = new Products();
