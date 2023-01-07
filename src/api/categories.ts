@@ -1,6 +1,6 @@
 class Categories {
   getAll = async (): Promise<string[]> => {
-    const res: Array<string> = await fetch("https://dummyjson.com/products/categories").then(res => res.json());
+    const res: Array<string> = await fetch(`${process.env.REACT_APP_BASE_URL}products/categories`).then(res => res.json());
     return res;
   };
 }
