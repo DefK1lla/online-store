@@ -35,4 +35,4 @@ export class ProductItem extends PureComponent<IItemProps> {
       </>
     )
   }
-};
+}

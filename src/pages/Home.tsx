@@ -2,6 +2,7 @@ import { Component } from "react";
 
 import { CheckboxFilter } from "../components/Filters";
 import { Layout } from "../components/Layout";
+import { ProductList } from "../components/Product";
 
 import { products, categories } from "../api";
 
@@ -60,11 +61,8 @@ class Home extends Component<unknown, IState> {
           </>
         }
       >
-        tedasasdasdst
+        <ProductList products={this.state.products} />
       </Layout>
-      <div>
-        Home page
-      </div>
     )
   }
 }

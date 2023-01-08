@@ -2,7 +2,7 @@ import styles from "./style.module.scss";
 
 import { PureComponent } from "react";
 
-import { Container, Paper } from "@mui/material";
+import { Container } from "@mui/material";
 import { IProps } from "../../interfaces/ILayout";
 
 export class Layout extends PureComponent<IProps> {
@@ -16,9 +16,7 @@ export class Layout extends PureComponent<IProps> {
             </div>
           }
 
-          <Paper className={styles.body}>
-            {this.props.children}
-          </Paper>
+          {this.props.children}
         </div>
       </Container>
     )
