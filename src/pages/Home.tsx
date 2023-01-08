@@ -62,6 +62,9 @@ class Home extends Component<unknown, IState> {
       >
         tedasasdasdst
       </Layout>
+      <div>
+        Home page
+      </div>
     )
   }
 }

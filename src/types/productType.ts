@@ -8,5 +8,6 @@ export type ProductType = {
   price: number,
   rating: number,
   stock: string,
-  thumbnail: string
+  thumbnail: string,
+  category: string
 };    
