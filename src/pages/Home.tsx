@@ -4,8 +4,6 @@ import { products } from "../api";
 
 import IProducts from "../interfaces/IProducts";
 
-import { ProductItem } from "../components/Product";
-
 import { ProductList } from "../components/Product";
 
 class Home extends Component<{}, IProducts> {

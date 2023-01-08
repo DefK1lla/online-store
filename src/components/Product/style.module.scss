@@ -2,8 +2,6 @@
   margin-bottom: 0
 }
 // ProductList styles
-.listContainer{
-}
 .listContainer_item{
   gap: 20px;
 
@@ -37,10 +35,10 @@
   font-size: 8px;
 }
 
-.productItem_button:hover{
-  background-color: rgba(57, 152, 247, 0.781);
-  color:white;
-}
+// .productItem_button:hover{
+//   background-color: rgba(65, 154, 237, 0.849);
+//   color:white;
+// }
 
 .productItem_img{
   // width: 300px;
