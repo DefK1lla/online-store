@@ -25,7 +25,8 @@ class Home extends Component<{}, IProducts> {
     return (
       <div>
         Home page
-        < ProductList />
+        < ProductList 
+        products={this.state.products}/>
       </div>
     )
   }
