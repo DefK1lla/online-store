@@ -23,7 +23,8 @@ class Home extends Component<unknown, IState> {
       products: prods.products,
       categories: cats.map((category: string): ChecboxType => ({ title: category, checked: false })),
       brands: Array.from(
-        new Set(prods.products.map(prod => prod.brand))).map(brand => ({ title: brand, checked: false }))
+        new Set(prods.products.map(prod => prod.brand))
+      ).map((brand: string): ChecboxType => ({ title: brand, checked: false }))
     });
   }
 
