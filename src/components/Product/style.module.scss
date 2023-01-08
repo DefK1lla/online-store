@@ -1,0 +1,38 @@
+*{
+  margin-bottom: 0
+}
+// ProductList styles
+.listContainer{
+
+}
+.listContainer_item{
+  gap: 20px;
+}
+// ProductItem styles
+.productItemContainer{
+  background-color: rgb(238, 238, 238);
+  border-radius: 5%;
+  border: solid 2px rgb(11, 95, 178);
+}
+.productItem_title{
+  text-align: center;
+  border: solid 2px rgb(11, 95, 178);
+  border-width: 0px 0px 2px 0px;
+}
+
+.productItem_description{
+  margin-right: 10%;
+  padding-top: 0;
+  margin-top: 0;
+  background: rgb(208, 232, 255);
+  border: solid 2px rgb(11, 95, 178);
+  border-width: 2px 2px 2px 0px;
+  border-radius: 5%;
+}
+
+
+.productItem_button:hover{
+  background-color: rgba(57, 152, 247, 0.653);
+  color:white;
+}
+

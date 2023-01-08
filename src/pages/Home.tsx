@@ -4,6 +4,10 @@ import { products } from "../api";
 
 import IProducts from "../interfaces/IProducts";
 
+import { ProductItem } from "../components/Product";
+
+import { ProductList } from "../components/Product";
+
 class Home extends Component<{}, IProducts> {
   state = {
     limit: 0,
@@ -21,6 +25,7 @@ class Home extends Component<{}, IProducts> {
     return (
       <div>
         Home page
+        < ProductList />
       </div>
     )
   }
