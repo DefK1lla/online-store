@@ -7,5 +7,15 @@ export interface IState {
   categories: Array<CheckboxType>,
   brands: Array<CheckboxType>,
   searchValue: string,
-  sort: string
+  sort: string,
+  priceSlider: {
+    min: number,
+    max: number,
+    value: number[]
+  },
+  stockSlider: {
+    min: number,
+    max: number,
+    value: number[]
+  }
 }

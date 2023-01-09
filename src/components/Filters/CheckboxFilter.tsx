@@ -2,7 +2,7 @@ import styles from "./style.module.scss";
 
 import { PureComponent, ChangeEvent, ReactNode } from "react";
 
-import { FormGroup, FormControlLabel, Checkbox, Paper } from "@mui/material";
+import { FormGroup, FormControlLabel, Checkbox, Paper, Typography } from "@mui/material";
 
 import { IProps } from "../../interfaces/ICheckboxFilter";
 import { CheckboxType } from "../../types/filterTypes";
@@ -15,6 +15,14 @@ export class CheckboxFilter extends PureComponent<IProps> {
   render(): ReactNode {
     return (
       <Paper className={styles.body}>
+        <div className={styles.header}>
+          <Typography
+            variant="h5"
+          >
+            {this.props.title}
+          </Typography>
+        </div>
+
         <FormGroup>
           {this.props.items.map((category: CheckboxType, index: number): ReactNode => {
             return (
