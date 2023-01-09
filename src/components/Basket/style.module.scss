@@ -20,10 +20,16 @@
 
 .basketItem_description_block1 {
   text-align: center;
-  font-size: medium;
+  font-size: 20px;
   height: 1.5rem;
   overflow: hidden;
   line-height: 25px;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .basketItem_description_block3 {

@@ -1,6 +1,7 @@
 import { Component, ReactNode } from "react";
 
 import { CheckboxFilter } from "../components/Filters";
+import { SliderFilter } from "../components/Filters/SliderFilter";
 import { Layout } from "../components/Layout";
 import { Search } from "../components/Inputs";
 import { ProductList } from "../components/Product";
@@ -8,12 +9,13 @@ import { Select } from "../components/Inputs";
 
 import { products, categories } from "../api";
 
-import { filterData } from "../utiles/helpers";
+import { filterData, rangeFilter } from "../utiles/helpers";
 
 import { IState } from "../interfaces/IHomePage";
 import IProducts from "../interfaces/IProducts";
 import { CheckboxType } from "../types/filterTypes";
 import { ProductType } from "../types/productType";
+import { ICartEvents } from "../interfaces/ICart";
 
 const sortOptions = {
   label: "Sort options",
@@ -45,18 +47,30 @@ const sortOptions = {
   ]
 };
 
-class Home extends Component<unknown, IState> {
+class Home extends Component<ICartEvents, IState> {
   state = {
     products: [],
     filteredProducts: [],
     categories: [],
     brands: [],
     searchValue: "",
-    sort: ""
+    sort: "",
+    priceSlider: {
+      min: 0,
+      max: 0,
+      value: []
+    },
+    stockSlider: {
+      min: 0,
+      max: 0,
+      value: []
+    },
+    cartProductIds: []
   };
 
   async componentDidMount(): Promise<void> {
     const prods: IProducts = await products.getAll();
+    const prodsInCart: ProductType[] = await products.getCartProducts();
     const cats: string[] = await categories.getAll();
 
     this.setState({
@@ -65,7 +79,24 @@ class Home extends Component<unknown, IState> {
       categories: cats.map((category: string): CheckboxType => ({ title: category, checked: false })),
       brands: Array.from(
         new Set(prods.products.map(prod => prod.brand))
-      ).map((brand: string): CheckboxType => ({ title: brand, checked: false }))
+      ).map((brand: string): CheckboxType => ({ title: brand, checked: false })),
+      priceSlider: {
+        min: 0,
+        max: Math.max(...Array.from(prods.products, prod => prod.price)),
+        value: [
+          0,
+          Math.max(...Array.from(prods.products, prod => prod.price))
+        ]
+      },
+      stockSlider: {
+        min: 0,
+        max: Math.max(...Array.from(prods.products, prod => +prod.stock)),
+        value: [
+          0,
+          Math.max(...Array.from(prods.products, prod => +prod.stock))
+        ]
+      },
+      cartProductIds: prodsInCart.map((prod: ProductType): number => prod.id)
     });
   }
 
@@ -76,16 +107,14 @@ class Home extends Component<unknown, IState> {
     }
 
     const filtersUpdated = (prevState.categories !== this.state.categories) || (prevState.brands !== this.state.brands),
-      productsUpdated = (prevState.products !== this.state.products);
+      productsUpdated = (prevState.products !== this.state.products),
+      sortUpdated = prevState.sort !== this.state.sort,
+      silderUpdated = prevState.priceSlider !== this.state.priceSlider || prevState.stockSlider !== this.state.stockSlider,
+      checkboxesUpdated = prevState.categories !== this.state.categories || prevState.brands !== this.state.brands;
 
-    if (filtersUpdated || productsUpdated) {
-      this.filterProducts();
-      this.sortProducts();
+    if (filtersUpdated || productsUpdated || sortUpdated || silderUpdated || checkboxesUpdated) {
+      this.updateProducts();
     }
-    if (prevState.sort !== this.state.sort) {
-      this.sortProducts();
-    }
-
   }
 
   handleCategoryChange = (index: number, status: boolean) => {
@@ -102,12 +131,18 @@ class Home extends Component<unknown, IState> {
     this.setState(prevState => ({ ...prevState, brands }));
   }
 
-  filterProducts = (): void => {
+  updateProducts = (): void => {
+    let filteredProducts = this.filterProducts(this.state.products);
+    filteredProducts = this.sortProducts(filteredProducts);
+    this.setState(prevState => ({ ...prevState, filteredProducts }));
+  }
+
+  filterProducts = (products: Array<ProductType>): Array<ProductType> => {
     const allowedCategories = this.state.categories.filter((ct: CheckboxType) => ct.checked);
     const allowedBrands = this.state.brands.filter((br: CheckboxType) => br.checked);
 
-    const filteredProducts = filterData<ProductType, string>({
-      items: this.state.products,
+    let filteredProducts = filterData<ProductType, string>({
+      items: products,
       filters: [
         {
           field: "category",
@@ -119,20 +154,31 @@ class Home extends Component<unknown, IState> {
         }
       ]
     });
-
-    this.setState(prevState => ({ ...prevState, filteredProducts }));
+    filteredProducts = rangeFilter<ProductType>({
+      items: filteredProducts,
+      filter: {
+        field: "price",
+        range: this.state.priceSlider.value
+      }
+    });
+    filteredProducts = rangeFilter<ProductType>({
+      items: filteredProducts,
+      filter: {
+        field: "stock",
+        range: this.state.stockSlider.value
+      }
+    });
+    return filteredProducts;
   }
 
-  sortProducts = (): void => {
-    if (!this.state.sort) return;
+  sortProducts = (products: Array<ProductType>): Array<ProductType> => {
+    if (!this.state.sort) return products;
     const [type, field] = this.state.sort.split(" ");
-    this.setState(prevState => ({
-      ...prevState, filteredProducts: prevState.filteredProducts.sort((a: ProductType, b: ProductType): number => {
-        const valueA = a[field as keyof ProductType] as number,
-          valueB = b[field as keyof ProductType] as number;
-        return type === "asc" ? valueA - valueB : valueB - valueA;
-      })
-    }));
+    return products.sort((a: ProductType, b: ProductType): number => {
+      const valueA = a[field as keyof ProductType] as number,
+        valueB = b[field as keyof ProductType] as number;
+      return type === "asc" ? valueA - valueB : valueB - valueA;
+    });
   }
 
   handleSearchChange = (value: string): void => {
@@ -143,18 +189,63 @@ class Home extends Component<unknown, IState> {
     this.setState(prevState => ({ ...prevState, sort: value }));
   }
 
+  handleSilderChange = (value: number[]): void => {
+    this.setState(prevState => ({ ...prevState, priceSlider: { ...prevState.priceSlider, value: value } }));
+  }
+
+  handleStockChange = (value: number[]): void => {
+    this.setState(prevState => ({ ...prevState, stockSlider: { ...prevState.stockSlider, value: value } }));
+  }
+
+  removeFromCart = (id: number): void => {
+    this.setState(prevState => ({
+      ...prevState,
+      cartProductIds: prevState.cartProductIds.filter((item: number): boolean => item !== id)
+    }))
+    this.props.onRemoveFromCart();
+    products.removeFromCart(id);
+  }
+
+  addToCart = (id: number): void => {
+    this.setState(prevState => ({
+      ...prevState,
+      cartProductIds: [...prevState.cartProductIds, id]
+    }));
+    this.props.onAddToCart();
+    products.addToCart(id);
+  }
+
   render(): ReactNode {
     return (
       <Layout
         SideBar={
           <>
             <CheckboxFilter
+              title="Category"
               items={this.state.categories}
               onChange={this.handleCategoryChange}
             />
             <CheckboxFilter
+              title="Brand"
               items={this.state.brands}
               onChange={this.handleBrandChange}
+            />
+
+            <SliderFilter
+              title="Price"
+              min={this.state.priceSlider.min}
+              max={this.state.priceSlider.max}
+              value={this.state.priceSlider.value}
+              onChange={this.handleSilderChange}
+              symbol="$"
+            />
+
+            <SliderFilter
+              title="Stock"
+              min={this.state.stockSlider.min}
+              max={this.state.stockSlider.max}
+              value={this.state.stockSlider.value}
+              onChange={this.handleStockChange}
             />
           </>
         }
@@ -173,9 +264,14 @@ class Home extends Component<unknown, IState> {
           </>
         }
       >
-        <div>
-          <ProductList products={this.state.filteredProducts} />
-        </div>
+        <>
+          <ProductList
+            onAddToCart={this.addToCart}
+            onRemoveFromCart={this.removeFromCart}
+            inCart={this.state.cartProductIds}
+            products={this.state.filteredProducts}
+          />
+        </>
       </Layout >
     )
   }
