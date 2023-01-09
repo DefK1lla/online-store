@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, ReactNode, MouseEventHandler } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardMedia from "@mui/material/CardMedia";
@@ -9,18 +9,25 @@ import { IItemProps } from "../../interfaces/IProduct";
 import { CardContent } from "@mui/material";
 
 export class CardProduct extends Component<IItemProps> {
-  render() {
+  handleClick: MouseEventHandler = (e): void => {
+    if (this.props.inCart) {
+      this.props.onRemoveFromCart(this.props.product.id);
+    } else {
+      this.props.onAddToCart(this.props.product.id);
+    }
+  }
+  render(): ReactNode {
     return (
-      <>
-        <Card className={styles.сardProductContainer}>
-          <Typography className={styles.сardProduct_title} component="div">
-            {this.props.product?.title}
-          </Typography>
-          <CardContent className={styles.cardProduct_content}>
-            <CardMedia
-              className={styles.сardProduct_img}
-              image={this.props.product?.thumbnail}
-            ></CardMedia>
+      <Card className={styles.сardProductContainer}>
+        <Typography className={styles.сardProduct_title} component="div">
+          {this.props.product?.title}
+        </Typography>
+        <div className={styles.cardProduct_content_wrapper}>
+          <CardMedia
+            className={styles.сardProduct_img}
+            image={this.props.product?.thumbnail}
+          />
+          <CardContent>
             <Typography
               className={styles.сardProduct_description_text}
               component="div"
@@ -32,43 +39,35 @@ export class CardProduct extends Component<IItemProps> {
               <div>Raiting: {this.props.product?.rating}</div>
               <div>Stock: {this.props.product?.stock}</div>
             </Typography>
-            <CardActions>
-              <Button
-                variant="text"
-                size="small"
-                className={styles.сardProduct_button}
-              >
-                ADD TO CART
-              </Button>
-            </CardActions>
           </CardContent>
-          <Typography
-            className={styles.cardProduct_description}
-            component="div"
-          >
-            Description:
-            <div>{this.props.product?.description}</div>
-          </Typography>
-          <CardContent className={styles.cardProduct_gallery}>
-            <CardMedia
-              component="img"
-              image={this.props.product?.images[0]}
-            ></CardMedia>
-            <CardMedia
-              component="img"
-              image={this.props.product?.images[1]}
-            ></CardMedia>
-            <CardMedia
-              component="img"
-              image={this.props.product?.images[2]}
-            ></CardMedia>
-            <CardMedia
-              component="img"
-              image={this.props.product?.images[3]}
-            ></CardMedia>
-          </CardContent>
-        </Card>
-      </>
+          <CardActions>
+            <Button
+              variant="text"
+              size="small"
+              className={styles.сardProduct_button}
+              onClick={this.handleClick}
+            >
+              {
+                this.props.inCart
+                  ? <>REMOVE FROM CART</>
+                  : <>ADD TO CART</>
+              }
+            </Button>
+          </CardActions>
+        </div>
+        <Typography
+          className={styles.cardProduct_description}
+          component="div"
+        >
+          Description:
+          <div>{this.props.product?.description}</div>
+        </Typography>
+        <div className={styles.images}>
+          {this.props.product.images.map((img: string): ReactNode =>
+            <img key={img} src={img} alt="" />
+          )}
+        </div>
+      </Card>
     );
   }
 }
