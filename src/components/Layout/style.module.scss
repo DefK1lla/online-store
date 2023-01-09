@@ -1,7 +1,10 @@
 .wrapper {
+  padding: 15px 0;
+}
+
+.wrapperFlex {
   display: flex;
   gap: 25px;
-  padding: 15px 0;
 }
 
 .sidebar {

@@ -28,6 +28,10 @@ class Products {
     localCart.removeItem(id);
   };
 
+  removeAllFromCart = async (): Promise<void> => {
+    localCart.removeAll();
+  }
+
   getCartProducts = async (): Promise<ProductType[]> => {
     const prods: ProductType[] = localCart.getItems();
     return prods;

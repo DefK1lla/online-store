@@ -14,6 +14,9 @@ const localCart = {
   removeItem(id: number): void {
     const cart: ProductType[] = localCart.getItems().filter((item: ProductType): boolean => item.id !== id);
     localStorage.setItem("cart", JSON.stringify(cart));
+  },
+  removeAll(): void {
+    localStorage.removeItem("cart");
   }
 }
 

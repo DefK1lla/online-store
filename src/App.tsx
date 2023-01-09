@@ -24,14 +24,18 @@ const App: FC = () => {
     setCartCount(prevState => prevState - 1);
   };
 
+  const reset = (): void => {
+    setCartCount(0);
+  }
+
   return (
     <>
       <Header
         cartCount={cartCount}
       />
       <Routes>
-        <Route path="/" element={<Home onAddToCart={increment} onRemoveFromCart={decrement} />} />
-        <Route path="/cart" element={<Cart onAddToCart={increment} onRemoveFromCart={decrement} />} />
+        <Route path="/" element={<Home onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
+        <Route path="/cart" element={<Cart onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

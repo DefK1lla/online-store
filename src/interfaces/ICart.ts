@@ -1,4 +1,5 @@
 export interface ICartEvents {
   onAddToCart(): void,
-  onRemoveFromCart(): void
+  onRemoveFromCart(): void,
+  onCartReset(): void
 }
