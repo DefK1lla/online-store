@@ -2,23 +2,23 @@
 
 
 // BasketItem style
-.busketItemContainer{
+.busketItemContainer {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  width: 100%;
 }
 
-.basketItem_img{
+.basketItem_img {
   width: 25%;
   height: 200px;
   background-size: cover;
 }
 
-.basketItem_description{
-  width:50%;
+.basketItem_description {
+  width: 50%;
 }
 
-.basketItem_description_block1{
+.basketItem_description_block1 {
   text-align: center;
   font-size: medium;
   height: 1.5rem;
@@ -26,28 +26,25 @@
   line-height: 25px;
 }
 
-.basketItem_description_block3{
+.basketItem_description_block3 {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
 }
 
-.basketItem_counter{
+.basketItem_counter {
   display: flex;
   flex-direction: column;
 }
 
-.basketItem_buttons{
+.basketItem_buttons {
   display: flex;
   text-align: center;
 }
 
-.basketItem_count{
+.basketItem_count {
   align-self: center;
 }
 
-.basketItem_button{
+.basketItem_button {
   font-size: 25px;
 }
-
-
-

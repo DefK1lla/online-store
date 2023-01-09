@@ -4,6 +4,7 @@
 
 // ProductList styles
 .listContainer_item {
+  min-width: 259px;
   gap: 20px;
 }
 
@@ -21,15 +22,14 @@
 }
 
 .productItem_description_text {
+  display: inline-block;
   margin-right: 30%;
-  // padding-top: 0;
-  padding-bottom: 0;
+  padding: 5px 10px;
   background: rgba(65, 154, 237, 0.849);
 
   div {
     color: white;
-    font-size: 8px;
-    padding-left: 5px;
+    font-size: 10px;
   }
 }
 

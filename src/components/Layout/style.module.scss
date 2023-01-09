@@ -6,9 +6,18 @@
 
 .sidebar {
   min-width: 300px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 15px
+}
+
+.topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
 .body {
@@ -23,5 +32,11 @@
 
   .body {
     order: -1;
+  }
+
+  .topbar {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }

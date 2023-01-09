@@ -9,12 +9,14 @@ export class ProductList extends Component<IListProps>{
   render() {
     return (
       <>
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} className={styles.listContainer}>
+        <Grid
+          className={styles.listContainer}
+          container
+          spacing={{ xs: 2, md: 3 }}
+        >
           {this.props.products.map((product: ProductType) => (
             <Grid item
-              xs={12}
-              sm={4}
-              md={3}
+              xs={12} sm={6} md={4} lg={4}
               key={product.id}
               className={styles.listContainer_item}>
               <ProductItem
