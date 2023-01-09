@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import styles from "./style.module.scss";
 import { IItemProps } from "../../interfaces/IProduct";
+import { Link } from "react-router-dom";
 
 export class ProductItem extends PureComponent<IItemProps> {
   handleClick: MouseEventHandler = (e): void => {
@@ -56,6 +57,8 @@ export class ProductItem extends PureComponent<IItemProps> {
               variant="text"
               size="small"
               className={styles.productItem_button}
+              component={Link}
+              to={`/product/${this.props.product.id}`}
             >
               DETAILS
             </Button>

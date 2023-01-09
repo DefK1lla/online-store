@@ -264,14 +264,14 @@ class Home extends Component<ICartEvents, IState> {
           </>
         }
       >
-        <div>
+        <>
           <ProductList
             onAddToCart={this.addToCart}
             onRemoveFromCart={this.removeFromCart}
             inCart={this.state.cartProductIds}
             products={this.state.filteredProducts}
           />
-        </div>
+        </>
       </Layout >
     )
   }

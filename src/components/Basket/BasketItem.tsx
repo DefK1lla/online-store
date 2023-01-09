@@ -3,6 +3,7 @@ import { PureComponent, MouseEventHandler } from "react";
 import styles from "./style.module.scss";
 import CardMedia from "@mui/material/CardMedia";
 import { IItemProps } from "../../interfaces/IProduct";
+import { Link } from "react-router-dom";
 
 export class BasketItem extends PureComponent<IItemProps> {
   state = {
@@ -22,9 +23,9 @@ export class BasketItem extends PureComponent<IItemProps> {
             image={this.props.product.thumbnail}
           />
           <Typography className={styles.basketItem_description} component="div">
-            <div className={styles.basketItem_description_block1}>
+            <Link to={`/product/${this.props.product.id}`} className={styles.basketItem_description_block1}>
               {this.props.product.title}
-            </div>
+            </Link>
             <div className={styles.basketItem_description_block2}>
               {this.props.product.description}
             </div>

@@ -2,6 +2,8 @@ import styles from "./style.module.scss";
 
 import { PureComponent, ReactNode } from "react";
 
+import { Link } from "react-router-dom";
+
 import { AppBar, IconButton, Badge, Container } from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { IProps } from "../../interfaces/IHeader";
@@ -15,7 +17,7 @@ export class Header extends PureComponent<IProps> {
       >
         <Container>
           <Badge badgeContent={this.props.cartCount} color="error">
-            <IconButton color="inherit" size="small">
+            <IconButton component={Link} to="/cart" color="inherit" size="small">
               <ShoppingCartIcon />
             </IconButton>
           </Badge>
