@@ -1,4 +1,4 @@
-import { Grid, Container } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Component } from "react";
 import { ProductItem } from "./ProductItem";
 import styles from "./style.module.scss";
@@ -8,7 +8,7 @@ import { IListProps } from "../../interfaces/IProduct";
 export class ProductList extends Component<IListProps>{
   render() {
     return (
-      <Container>
+      <>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} className={styles.listContainer}>
           {this.props.products.map((product: ProductType) => (
             <Grid item
@@ -23,7 +23,7 @@ export class ProductList extends Component<IListProps>{
             </Grid>
           ))}
         </Grid>
-      </Container>
+      </>
     )
   }
 }
