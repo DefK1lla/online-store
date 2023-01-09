@@ -2,11 +2,7 @@ import { Component } from "react";
 
 class NotFound extends Component {
   render() {
-    return (
-      <div>
-        404
-      </div>
-    )
+    return <div>404</div>;
   }
 }
 

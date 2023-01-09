@@ -3,15 +3,14 @@
 
 // BasketItem style
 .busketItemContainer{
-  background-color: rgb(238, 238, 238);
   display: flex;
   justify-content: space-between;
-  width: 80vw;
+  width: 100%;
 }
 
 .basketItem_img{
   width: 25%;
-  height: 30%;
+  height: 200px;
   background-size: cover;
 }
 

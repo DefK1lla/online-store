@@ -5,5 +5,5 @@ export interface IItemProps{
 }
 
 export interface IListProps{
-  products: Array<ProductType>;
+  products: ProductType[];
 }
