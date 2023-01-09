@@ -1,4 +1,4 @@
-import { PureComponent } from "react";
+import { MouseEventHandler, PureComponent, ReactNode } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardMedia from "@mui/material/CardMedia";
@@ -8,7 +8,15 @@ import styles from "./style.module.scss";
 import { IItemProps } from "../../interfaces/IProduct";
 
 export class ProductItem extends PureComponent<IItemProps> {
-  render() {
+  handleClick: MouseEventHandler = (e): void => {
+    if (this.props.inCart) {
+      this.props.onRemoveFromCart(this.props.product.id);
+    } else {
+      this.props.onAddToCart(this.props.product.id);
+    }
+  }
+
+  render(): ReactNode {
     return (
       <>
         <Card className={styles.productItemContainer}>
@@ -36,8 +44,13 @@ export class ProductItem extends PureComponent<IItemProps> {
               variant="text"
               size="small"
               className={styles.productItem_button}
+              onClick={this.handleClick}
             >
-              ADD TO CART
+              {
+                this.props.inCart
+                  ? <>REMOVE FROM CART</>
+                  : <>ADD TO CART</>
+              }
             </Button>
             <Button
               variant="text"

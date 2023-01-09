@@ -17,5 +17,6 @@ export interface IState {
     min: number,
     max: number,
     value: number[]
-  }
+  },
+  cartProductIds: number[]
 }

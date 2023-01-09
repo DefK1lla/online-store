@@ -11,7 +11,8 @@ export class BasketList extends Component<IListProps> {
       <List>
         {this.props.products.map((product: ProductType) => (
           <ListItem key={product.id} className={styles.listContainer_item}>
-            <BasketItem product={product} />
+            <BasketItem onAddToCart={this.props.onAddToCart}
+              onRemoveFromCart={this.props.onRemoveFromCart} product={product} />
           </ListItem>
         ))}
       </List>

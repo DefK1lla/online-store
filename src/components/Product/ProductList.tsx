@@ -1,11 +1,11 @@
 import { Grid, Typography } from "@mui/material";
-import { Component } from "react";
+import { PureComponent } from "react";
 import { ProductItem } from "./ProductItem";
 import styles from "./style.module.scss";
 import { ProductType } from "../../types/productType";
 import { IListProps } from "../../interfaces/IProduct";
 
-export class ProductList extends Component<IListProps>{
+export class ProductList extends PureComponent<IListProps>{
   render() {
     return (
       <>
@@ -21,7 +21,10 @@ export class ProductList extends Component<IListProps>{
                 key={product.id}
                 className={styles.listContainer_item}>
                 <ProductItem
+                  onAddToCart={this.props.onAddToCart}
+                  onRemoveFromCart={this.props.onRemoveFromCart}
                   product={product}
+                  inCart={this.props.inCart?.includes(product.id)}
                 />
               </Grid>
             ))}

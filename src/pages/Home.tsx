@@ -15,6 +15,7 @@ import { IState } from "../interfaces/IHomePage";
 import IProducts from "../interfaces/IProducts";
 import { CheckboxType } from "../types/filterTypes";
 import { ProductType } from "../types/productType";
+import { ICartEvents } from "../interfaces/ICart";
 
 const sortOptions = {
   label: "Sort options",
@@ -46,7 +47,7 @@ const sortOptions = {
   ]
 };
 
-class Home extends Component<unknown, IState> {
+class Home extends Component<ICartEvents, IState> {
   state = {
     products: [],
     filteredProducts: [],
@@ -63,11 +64,13 @@ class Home extends Component<unknown, IState> {
       min: 0,
       max: 0,
       value: []
-    }
+    },
+    cartProductIds: []
   };
 
   async componentDidMount(): Promise<void> {
     const prods: IProducts = await products.getAll();
+    const prodsInCart: ProductType[] = await products.getCartProducts();
     const cats: string[] = await categories.getAll();
 
     this.setState({
@@ -92,7 +95,8 @@ class Home extends Component<unknown, IState> {
           0,
           Math.max(...Array.from(prods.products, prod => +prod.stock))
         ]
-      }
+      },
+      cartProductIds: prodsInCart.map((prod: ProductType): number => prod.id)
     });
   }
 
@@ -193,6 +197,22 @@ class Home extends Component<unknown, IState> {
     this.setState(prevState => ({ ...prevState, stockSlider: { ...prevState.stockSlider, value: value } }));
   }
 
+  removeFromCart = (id: number): void => {
+    this.setState(prevState => ({
+      ...prevState,
+      cartProductIds: prevState.cartProductIds.filter((item: number): boolean => item !== id)
+    }))
+    this.props.onRemoveFromCart();
+  }
+
+  addToCart = (id: number): void => {
+    this.setState(prevState => ({
+      ...prevState,
+      cartProductIds: [...prevState.cartProductIds, id]
+    }));
+    this.props.onAddToCart();
+  }
+
   render(): ReactNode {
     return (
       <Layout
@@ -243,7 +263,12 @@ class Home extends Component<unknown, IState> {
         }
       >
         <div>
-          <ProductList products={this.state.filteredProducts} />
+          <ProductList
+            onAddToCart={this.addToCart}
+            onRemoveFromCart={this.removeFromCart}
+            inCart={this.state.cartProductIds}
+            products={this.state.filteredProducts}
+          />
         </div>
       </Layout >
     )

@@ -3,8 +3,9 @@ import { BasketList } from "../components/Basket";
 import { IState } from "../interfaces/ICartPage";
 import { products } from "../api";
 import IProducts from "../interfaces/IProducts";
+import { ICartEvents } from "../interfaces/ICart";
 
-class Cart extends Component<unknown, IState> {
+class Cart extends Component<ICartEvents, IState> {
   state = {
     products: [],
   };
@@ -16,11 +17,14 @@ class Cart extends Component<unknown, IState> {
     });
   }
 
+  setCardProductIds() { return }
+
   render() {
     return (
       <>
         <div>Cart pagee</div>
-        <BasketList products={this.state.products}></BasketList>
+        <BasketList onAddToCart={this.props.onAddToCart}
+          onRemoveFromCart={this.props.onRemoveFromCart} products={this.state.products}></BasketList>
       </>
     );
   }
