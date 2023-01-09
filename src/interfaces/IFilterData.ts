@@ -5,3 +5,11 @@ export interface IFilterData<ItemType, ValueType> {
     allowedValues: Array<ValueType>
   }>
 }
+
+export interface IRangeFIlter<ItemType> {
+  items: Array<ItemType>,
+  filter: {
+    field: string,
+    range: number[]
+  }
+}

@@ -1,5 +1,20 @@
+.header {
+  text-align: center;
+}
+
+.values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
 .body {
   max-height: 300px;
   overflow: auto;
+  overflow-x: hidden;
   padding: 15px;
+}
+
+.slider {
+  width: 100%;
 }
