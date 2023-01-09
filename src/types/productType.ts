@@ -1,3 +1,5 @@
+import { PrettyDOMOptions } from "@testing-library/react";
+
 export type ProductType = {
   id: number,
   title: string,
@@ -10,4 +12,8 @@ export type ProductType = {
   stock: string,
   thumbnail: string,
   category: string
-};    
+};
+
+export type CartProductType = PrettyDOMOptions & {
+  count: number
+}
