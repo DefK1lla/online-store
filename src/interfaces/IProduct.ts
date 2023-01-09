@@ -13,3 +13,4 @@ export interface IListProps {
   onAddToCart(id: number): void;
   onRemoveFromCart(id: number): void;
 }
+
