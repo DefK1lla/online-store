@@ -1,6 +1,6 @@
-import { ChecboxType } from "../types/filterTypes";
+import { CheckboxType } from "../types/filterTypes";
 
 export interface IProps {
-  items: Array<ChecboxType>,
+  items: Array<CheckboxType>,
   onChange(index: number, status: boolean): void
 }

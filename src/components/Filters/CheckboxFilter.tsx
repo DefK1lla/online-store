@@ -5,18 +5,18 @@ import { PureComponent, ChangeEvent, ReactNode } from "react";
 import { FormGroup, FormControlLabel, Checkbox, Paper } from "@mui/material";
 
 import { IProps } from "../../interfaces/ICheckboxFilter";
-import { ChecboxType } from "../../types/filterTypes";
+import { CheckboxType } from "../../types/filterTypes";
 
 export class CheckboxFilter extends PureComponent<IProps> {
   handleChange = (index: number) => (e: ChangeEvent<HTMLInputElement>): void => {
     this.props.onChange(index, e.target.checked);
   }
 
-  render() {
+  render(): ReactNode {
     return (
       <Paper className={styles.body}>
         <FormGroup>
-          {this.props.items.map((category: ChecboxType, index: number): ReactNode => {
+          {this.props.items.map((category: CheckboxType, index: number): ReactNode => {
             return (
               <FormControlLabel
                 key={index}
