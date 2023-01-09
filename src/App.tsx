@@ -36,7 +36,7 @@ const App: FC = () => {
       <Routes>
         <Route path="/" element={<Home onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
         <Route path="/cart" element={<Cart onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
-        <Route path="/product/:id" element={<Product />} />
+        <Route path="/product/:id" element={<Product onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

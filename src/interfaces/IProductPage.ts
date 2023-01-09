@@ -1,5 +1,7 @@
 import { ProductType } from "../types/productType";
 
 export interface IState {
-  products: ProductType[],
+  product: ProductType,
+  inCart: boolean,
+  isFetching: boolean
 }

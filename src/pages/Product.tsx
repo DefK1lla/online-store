@@ -1,35 +1,66 @@
 import { Component } from "react";
 
+import { Container } from "@mui/material";
+
 import withRouter from "../hoc/withRouter";
+
+import { Loader } from "../components/Loader";
 
 import { IWithRouterProps } from "../interfaces/IWithRouterProps";
 import { CardProduct } from "../components/CardProduct";
 import { products } from "../api";
-import IProducts from "../interfaces/IProducts";
+import { ProductType } from "../types/productType";
 import { IState } from "../interfaces/IProductPage";
+import { ICartEvents } from "../interfaces/ICart";
 
-// IWithRouterProps
-class Product extends Component<IWithRouterProps, unknown, IState> {
+class Product extends Component<ICartEvents & IWithRouterProps, IState> {
   state = {
-    products: [],
-  };
-
+    product: {
+      id: 0,
+      title: "",
+      brand: "",
+      description: "",
+      discountPercentage: 0,
+      images: [],
+      price: 0,
+      rating: 0,
+      stock: "",
+      thumbnail: "",
+      category: ""
+    },
+    inCart: false,
+    isFetching: true
+  }
   async componentDidMount(): Promise<void> {
-    const prods: IProducts = await products.getAll();
+    this.setState(prevState => ({ ...prevState, isFetching: true }));
+    const prod: ProductType = await products.getOneById(+this.props.params.id);
+    const inCart: number[] = await (await products.getCartProducts()).map((prod: ProductType): number => prod.id);
     this.setState({
-      products: prods.products,
+      product: prod,
+      inCart: inCart.includes(+this.props.params.id),
+      isFetching: false
     });
   }
 
+  handleRemove = (): void => {
+    this.setState(prevState => ({ ...prevState, inCart: false }));
+    this.props.onRemoveFromCart();
+  }
+
+  handleAdd = (): void => {
+    this.setState(prevState => ({ ...prevState, inCart: true }));
+    this.props.onAddToCart();
+  }
+
   render() {
-    console.log(this.props.params);
-    const num = Number(this.props.params?.id);
-    const product = this.state.products[num - 1];
     return (
-      <>
-        <div>{this.props.params?.id}</div>
-        <CardProduct product={product}></CardProduct>
-      </>
+      <Container>
+        {this.state.isFetching ?
+          <Loader />
+          : <CardProduct product={this.state.product} onAddToCart={this.handleAdd}
+            onRemoveFromCart={this.handleRemove} inCart={this.state.inCart} />
+        }
+      </Container>
     );
   }
 }

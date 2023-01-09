@@ -18,5 +18,6 @@ export interface IState {
     max: number,
     value: number[]
   },
-  cartProductIds: number[]
+  cartProductIds: number[],
+  isFetching: boolean
 }
