@@ -11,6 +11,12 @@ class Products {
     const res = await fetch(`https://dummyjson.com/products/${id}`).then(res => res.json());
     return res;
   };
+
+  search = async (keyword: string): Promise<IProducts> => {
+    const res: IProducts = await fetch(`${process.env.REACT_APP_BASE_URL}products/search?q=${keyword}`)
+      .then(res => res.json());
+    return res;
+  }
 }
 
 export const products = new Products();
