@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, Typography } from "@mui/material";
-import { PureComponent } from "react";
+import { PureComponent, MouseEventHandler } from "react";
 import styles from "./style.module.scss";
 import CardMedia from "@mui/material/CardMedia";
 import { IItemProps } from "../../interfaces/IProduct";
@@ -8,6 +8,10 @@ export class BasketItem extends PureComponent<IItemProps> {
   state = {
     count: 1,
   };
+
+  handleClick: MouseEventHandler = (e): void => {
+    this.props.onRemoveFromCart(this.props.product.id);
+  }
 
   render() {
     return (
@@ -32,6 +36,12 @@ export class BasketItem extends PureComponent<IItemProps> {
                 Discount: {this.props.product.discountPercentage}
               </div>
             </div>
+
+            <Button
+              onClick={this.handleClick}
+            >
+              REMOVE FROM CART
+            </Button>
           </Typography>
           <CardActions className={styles.basketItem_counter}>
             <div>Stock: {this.props.product.stock}</div>

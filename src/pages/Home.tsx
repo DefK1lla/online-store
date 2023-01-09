@@ -203,6 +203,7 @@ class Home extends Component<ICartEvents, IState> {
       cartProductIds: prevState.cartProductIds.filter((item: number): boolean => item !== id)
     }))
     this.props.onRemoveFromCart();
+    products.removeFromCart(id);
   }
 
   addToCart = (id: number): void => {
@@ -211,6 +212,7 @@ class Home extends Component<ICartEvents, IState> {
       cartProductIds: [...prevState.cartProductIds, id]
     }));
     this.props.onAddToCart();
+    products.addToCart(id);
   }
 
   render(): ReactNode {

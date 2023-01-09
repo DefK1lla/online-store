@@ -2,8 +2,9 @@ import { Component } from "react";
 import { BasketList } from "../components/Basket";
 import { IState } from "../interfaces/ICartPage";
 import { products } from "../api";
-import IProducts from "../interfaces/IProducts";
 import { ICartEvents } from "../interfaces/ICart";
+import { ProductType } from "../types/productType";
+import { Container } from "@mui/material";
 
 class Cart extends Component<ICartEvents, IState> {
   state = {
@@ -11,21 +12,27 @@ class Cart extends Component<ICartEvents, IState> {
   };
 
   async componentDidMount(): Promise<void> {
-    const prods: IProducts = await products.getAll();
+    const prods: ProductType[] = await products.getCartProducts();
     this.setState({
-      products: prods.products,
+      products: prods,
     });
   }
 
-  setCardProductIds() { return }
+  removeFromCart = (id: number) => {
+    products.removeFromCart(id);
+    this.setState(prevState => ({
+      ...prevState,
+      products: prevState.products.filter((prod: ProductType): boolean => prod.id !== id)
+    }));
+    this.props.onRemoveFromCart();
+  }
 
   render() {
     return (
-      <>
-        <div>Cart pagee</div>
+      <Container>
         <BasketList onAddToCart={this.props.onAddToCart}
-          onRemoveFromCart={this.props.onRemoveFromCart} products={this.state.products}></BasketList>
-      </>
+          onRemoveFromCart={this.removeFromCart} products={this.state.products} />
+      </Container>
     );
   }
 }
