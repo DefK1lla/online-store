@@ -17,6 +17,8 @@ import { CheckboxType } from "../types/filterTypes";
 import { ProductType } from "../types/productType";
 import { ICartEvents } from "../interfaces/ICart";
 
+import { Loader } from "../components/Loader";
+
 const sortOptions = {
   label: "Sort options",
   options: [
@@ -65,10 +67,12 @@ class Home extends Component<ICartEvents, IState> {
       max: 0,
       value: []
     },
-    cartProductIds: []
+    cartProductIds: [],
+    isFetching: true
   };
 
   async componentDidMount(): Promise<void> {
+    this.setState(prevState => ({ ...prevState, isFetching: true }))
     const prods: IProducts = await products.getAll();
     const prodsInCart: ProductType[] = await products.getCartProducts();
     const cats: string[] = await categories.getAll();
@@ -96,7 +100,8 @@ class Home extends Component<ICartEvents, IState> {
           Math.max(...Array.from(prods.products, prod => +prod.stock))
         ]
       },
-      cartProductIds: prodsInCart.map((prod: ProductType): number => prod.id)
+      cartProductIds: prodsInCart.map((prod: ProductType): number => prod.id),
+      isFetching: false
     });
   }
 
@@ -217,62 +222,67 @@ class Home extends Component<ICartEvents, IState> {
 
   render(): ReactNode {
     return (
-      <Layout
-        SideBar={
-          <>
-            <CheckboxFilter
-              title="Category"
-              items={this.state.categories}
-              onChange={this.handleCategoryChange}
-            />
-            <CheckboxFilter
-              title="Brand"
-              items={this.state.brands}
-              onChange={this.handleBrandChange}
-            />
+      <>
+        {this.state.isFetching
+          ? <Loader />
+          : <Layout
+            SideBar={
+              <>
+                <CheckboxFilter
+                  title="Category"
+                  items={this.state.categories}
+                  onChange={this.handleCategoryChange}
+                />
+                <CheckboxFilter
+                  title="Brand"
+                  items={this.state.brands}
+                  onChange={this.handleBrandChange}
+                />
 
-            <SliderFilter
-              title="Price"
-              min={this.state.priceSlider.min}
-              max={this.state.priceSlider.max}
-              value={this.state.priceSlider.value}
-              onChange={this.handleSilderChange}
-              symbol="$"
-            />
+                <SliderFilter
+                  title="Price"
+                  min={this.state.priceSlider.min}
+                  max={this.state.priceSlider.max}
+                  value={this.state.priceSlider.value}
+                  onChange={this.handleSilderChange}
+                  symbol="$"
+                />
 
-            <SliderFilter
-              title="Stock"
-              min={this.state.stockSlider.min}
-              max={this.state.stockSlider.max}
-              value={this.state.stockSlider.value}
-              onChange={this.handleStockChange}
-            />
-          </>
+                <SliderFilter
+                  title="Stock"
+                  min={this.state.stockSlider.min}
+                  max={this.state.stockSlider.max}
+                  value={this.state.stockSlider.value}
+                  onChange={this.handleStockChange}
+                />
+              </>
+            }
+            TopBar={
+              <>
+                <Search
+                  value={this.state.searchValue}
+                  onChange={this.handleSearchChange}
+                />
+                <Select
+                  options={sortOptions.options}
+                  value={this.state.sort}
+                  onChange={this.handleSelectChange}
+                  label={sortOptions.label}
+                />
+              </>
+            }
+          >
+            <>
+              <ProductList
+                onAddToCart={this.addToCart}
+                onRemoveFromCart={this.removeFromCart}
+                inCart={this.state.cartProductIds}
+                products={this.state.filteredProducts}
+              />
+            </>
+          </Layout >
         }
-        TopBar={
-          <>
-            <Search
-              value={this.state.searchValue}
-              onChange={this.handleSearchChange}
-            />
-            <Select
-              options={sortOptions.options}
-              value={this.state.sort}
-              onChange={this.handleSelectChange}
-              label={sortOptions.label}
-            />
-          </>
-        }
-      >
-        <>
-          <ProductList
-            onAddToCart={this.addToCart}
-            onRemoveFromCart={this.removeFromCart}
-            inCart={this.state.cartProductIds}
-            products={this.state.filteredProducts}
-          />
-        </>
-      </Layout >
+      </>
     )
   }
 }

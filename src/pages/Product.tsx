@@ -4,6 +4,8 @@ import { Container } from "@mui/material";
 
 import withRouter from "../hoc/withRouter";
 
+import { Loader } from "../components/Loader";
+
 import { IWithRouterProps } from "../interfaces/IWithRouterProps";
 import { CardProduct } from "../components/CardProduct";
 import { products } from "../api";
@@ -26,14 +28,17 @@ class Product extends Component<ICartEvents & IWithRouterProps, IState> {
       thumbnail: "",
       category: ""
     },
-    inCart: false
+    inCart: false,
+    isFetching: true
   }
   async componentDidMount(): Promise<void> {
+    this.setState(prevState => ({ ...prevState, isFetching: true }));
     const prod: ProductType = await products.getOneById(+this.props.params.id);
     const inCart: number[] = await (await products.getCartProducts()).map((prod: ProductType): number => prod.id);
     this.setState({
       product: prod,
-      inCart: inCart.includes(+this.props.params.id)
+      inCart: inCart.includes(+this.props.params.id),
+      isFetching: false
     });
   }
 
@@ -50,8 +55,11 @@ class Product extends Component<ICartEvents & IWithRouterProps, IState> {
   render() {
     return (
       <Container>
-        <CardProduct product={this.state.product} onAddToCart={this.handleAdd}
-          onRemoveFromCart={this.handleRemove} inCart={this.state.inCart} />
+        {this.state.isFetching ?
+          <Loader />
+          : <CardProduct product={this.state.product} onAddToCart={this.handleAdd}
+            onRemoveFromCart={this.handleRemove} inCart={this.state.inCart} />
+        }
       </Container>
     );
   }
