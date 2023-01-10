@@ -1,8 +1,16 @@
-import { Component } from "react";
+import { Component, ReactNode } from "react";
+
+import { Typography } from "@mui/material";
+
+import { Layout } from "../components/Layout";
 
 class NotFound extends Component {
-  render() {
-    return <div>404</div>;
+  render(): ReactNode {
+    return <Layout>
+      <Typography variant="h3">
+        404. Not Found
+      </Typography>
+    </Layout>;
   }
 }
 
