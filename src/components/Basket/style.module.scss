@@ -1,0 +1,56 @@
+// BasketList style
+
+
+// BasketItem style
+.busketItemContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.basketItem_img {
+  width: 25%;
+  height: 200px;
+  background-size: cover;
+}
+
+.basketItem_description {
+  width: 50%;
+}
+
+.basketItem_description_block1 {
+  text-align: center;
+  font-size: 20px;
+  height: 1.5rem;
+  overflow: hidden;
+  line-height: 25px;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.basketItem_description_block3 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.basketItem_counter {
+  display: flex;
+  flex-direction: column;
+}
+
+.basketItem_buttons {
+  display: flex;
+  text-align: center;
+}
+
+.basketItem_count {
+  align-self: center;
+}
+
+.basketItem_button {
+  font-size: 25px;
+}
