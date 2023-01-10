@@ -1,4 +1,25 @@
+.swiper {
+  width: 100%;
+  max-width: 500px;
+  height: 600px;
+  margin: 0 auto;
+
+  &Item {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.img {
+  width: 100%;
+}
+
 .сardProductContainer {
+  width: 100%;
+  margin-bottom: 30px;
   background-color: rgb(238, 238, 238);
 }
 
@@ -6,8 +27,14 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
   flex-wrap: wrap;
+}
+
+@media(max-width: 678px) {
+  .cardProduct_content_wrapper {
+    flex-direction: column;
+  }
 }
 
 .сardProduct_title {
@@ -17,13 +44,6 @@
   height: 2.2rem;
   overflow: hidden;
   line-height: 25px;
-}
-
-.images {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
 }
 
 .сardProduct_description_text {
