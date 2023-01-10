@@ -7,6 +7,7 @@ import Cart from "./pages/Cart";
 import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 import { products } from "./api";
 
 const App: FC = () => {
@@ -29,17 +30,20 @@ const App: FC = () => {
   }
 
   return (
-    <>
+    <div className="wrapper">
       <Header
         cartCount={cartCount}
       />
-      <Routes>
-        <Route path="/" element={<Home onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
-        <Route path="/cart" element={<Cart onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
-        <Route path="/product/:id" element={<Product onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </>
+      <div className="main">
+        <Routes>
+          <Route path="/" element={<Home onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
+          <Route path="/cart" element={<Cart onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
+          <Route path="/product/:id" element={<Product onAddToCart={increment} onRemoveFromCart={decrement} onCartReset={reset} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+      <Footer />
+    </div>
   );
 }
 
