@@ -1,6 +1,6 @@
 import { Component, ReactNode, MouseEventHandler } from "react";
 
-import { Typography, Button, CardMedia, CardActions, Card, Stack } from "@mui/material";
+import { Typography, Button, CardMedia, CardActions, Card } from "@mui/material";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
