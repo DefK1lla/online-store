@@ -34,7 +34,10 @@ class Product extends Component<ICartEvents & IWithRouterProps, IState> {
   async componentDidMount(): Promise<void> {
     this.setState(prevState => ({ ...prevState, isFetching: true }));
     const prod: ProductType = await products.getOneById(+this.props.params.id);
-    const inCart: number[] = await (await products.getCartProducts()).map((prod: ProductType): number => prod.id);
+    if (!prod.id) {
+      this.props.navigate("404");
+    }
+    const inCart: number[] = (await products.getCartProducts()).map((prod: ProductType): number => prod.id);
     this.setState({
       product: prod,
       inCart: inCart.includes(+this.props.params.id),
