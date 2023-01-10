@@ -30,6 +30,7 @@ const App: FC = () => {
   }
 
   return (
+
     <div className="wrapper">
       <Header
         cartCount={cartCount}
