@@ -1,0 +1,45 @@
+.wrapper {
+  padding: 15px 0;
+}
+
+.wrapperFlex {
+  display: flex;
+  gap: 25px;
+}
+
+.sidebar {
+  min-width: 300px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px
+}
+
+.topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.body {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+@media (max-width: 992px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .body {
+    order: -1;
+  }
+
+  .topbar {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
